@@ -2,14 +2,17 @@ package com.example.mp3player;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.app.ListActivity;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 /*Imports unused
  * import android.view.Menu;
 import android.view.MenuItem;
@@ -64,7 +67,24 @@ public class MainActivity extends ListActivity {
 		}
 	}
 	
-	
+	protected void onListItemClick(ListView list, View view, int position, long id)
+	{
+		
+		try {
+			mp.reset();
+			mp.setDataSource(SD_Path + songs.get(position));
+			mp.prepare();
+			mp.start();
+			
+		} catch (IllegalArgumentException | SecurityException
+				| IllegalStateException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+			//Log.v(getString(R.string.app_name), e.getMessage());
+		
+	}
 
 	/*unused default methods
 	 * @Override
