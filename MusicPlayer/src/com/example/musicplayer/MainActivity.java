@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.support.v7.app.ActionBarActivity;
-import android.app.ListActivity;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
@@ -13,16 +12,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 
 public class MainActivity extends ActionBarActivity{
 	
 	String ruta = "/system/media/audio/ringtones";
+	private ListView list;
 	Button detener;
 	private List <String>  canciones = new ArrayList<String>();
 	MediaPlayer reproductor = new MediaPlayer();
 	
 	Filtro filtro = new Filtro();//objeto tipo class
-	ejecutarListActivity listaActividad;
 	
 
 	@Override
@@ -30,11 +30,28 @@ public class MainActivity extends ActionBarActivity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		listaActividad = new ejecutarListActivity();
+		//CODE
+		actualizarLista();
 		
 		detener = (Button) findViewById(R.id.btnStop);
+		list = (ListView)findViewById(R.id.listview);
 		
+        File archivo = new File(ruta);
+		
+		if(archivo.listFiles(filtro).length > 0)
+		{
+			for(File cancion:archivo.listFiles(filtro))
+			{
+				canciones.add(cancion.getName());
+			}
+			
+			ArrayAdapter <String> listaCanciones = new ArrayAdapter<String>(this, R.layout.item_cancion, canciones);
+			list.setAdapter(listaCanciones);
+		}
+		
+		//EVENTS
 		detener.setOnClickListener(new View.OnClickListener() {
+			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
@@ -48,29 +65,9 @@ public class MainActivity extends ActionBarActivity{
 		reproductor.stop();
 	}
 
-	public class ejecutarListActivity extends ListActivity
+	private void actualizarLista() 
 	{
-		ejecutarListActivity()
-		{
-			actualizarLista();
-		}
 		
-		private void actualizarLista() 
-		{
-			File archivo = new File(ruta);
-			
-			if(archivo.listFiles(filtro).length > 0)
-			{
-				for(File cancion:archivo.listFiles(filtro))
-				{
-					canciones.add(cancion.getName());
-				}
-				
-				ArrayAdapter <String> listaCanciones = new ArrayAdapter<String>(this, R.layout.item_cancion, canciones);
-				setListAdapter(listaCanciones);
-			}
-			
-		}
 	}
 	
 	@Override
