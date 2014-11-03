@@ -5,18 +5,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.support.v7.app.ActionBarActivity;
+import android.app.ListActivity;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity{
 	
 	String ruta = "/system/media/audio/ringtones";
+	Button detener;
 	private List <String>  canciones = new ArrayList<String>();
 	MediaPlayer reproductor = new MediaPlayer();
 	
 	Filtro filtro = new Filtro();//objeto tipo class
+	ejecutarListActivity listaActividad;
 	
 
 	@Override
@@ -24,25 +30,49 @@ public class MainActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		actualizarLista();
+		listaActividad = new ejecutarListActivity();
+		
+		detener = (Button) findViewById(R.id.btnStop);
+		
+		detener.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				detener();
+			}
+		});
+	}
+	
+	public void detener()
+	{
+		reproductor.stop();
 	}
 
-	private void actualizarLista() 
+	public class ejecutarListActivity extends ListActivity
 	{
-		File archivo = new File(ruta);
-		
-		if(archivo.listFiles(filtro).length > 0)
+		ejecutarListActivity()
 		{
-			for(File cancion:archivo.listFiles(filtro))
-			{
-				canciones.add(cancion.getName());
-			}
-			
-			ArrayAdapter <String> listaCanciones = new ArrayAdapter<String>();
+			actualizarLista();
 		}
 		
+		private void actualizarLista() 
+		{
+			File archivo = new File(ruta);
+			
+			if(archivo.listFiles(filtro).length > 0)
+			{
+				for(File cancion:archivo.listFiles(filtro))
+				{
+					canciones.add(cancion.getName());
+				}
+				
+				ArrayAdapter <String> listaCanciones = new ArrayAdapter<String>(this, R.layout.item_cancion, canciones);
+				setListAdapter(listaCanciones);
+			}
+			
+		}
 	}
-
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
