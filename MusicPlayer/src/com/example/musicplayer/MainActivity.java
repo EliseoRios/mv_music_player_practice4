@@ -82,6 +82,7 @@ public class MainActivity extends ActionBarActivity{
 	private void reproducir(int posicion)
 	{
 		try {
+			//falta revizar
 			reproductor.reset();
 			reproductor.setDataSource(ruta + canciones.get(posicion));
 			reproductor.prepare();
