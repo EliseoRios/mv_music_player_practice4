@@ -8,17 +8,17 @@
         android:id="@+id/listview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/btnPlay" />
+        android:layout_above="@+id/btnPause" />
 
     <Button
-        android:id="@+id/btnPlay"
+        android:id="@+id/btnPause"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginRight="39dp"
         android:layout_toLeftOf="@+id/btnStop"
-        android:text="@string/txtPlay" />
+        android:text="@string/txtPause" />
 
     <Button
         android:id="@+id/btnStop"

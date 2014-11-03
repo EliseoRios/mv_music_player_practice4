@@ -1,6 +1,7 @@
 package com.example.musicplayer;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,15 +11,19 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 
 public class MainActivity extends ActionBarActivity{
 	
 	String ruta = "/system/media/audio/ringtones";
 	private ListView list;
 	Button detener;
+	Button pausar;
 	private List <String>  canciones = new ArrayList<String>();
 	MediaPlayer reproductor = new MediaPlayer();
 	
@@ -30,12 +35,12 @@ public class MainActivity extends ActionBarActivity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		//CODE
-		actualizarLista();
-		
+		//Code
 		detener = (Button) findViewById(R.id.btnStop);
+		pausar = (Button) findViewById(R.id.btnPause);
 		list = (ListView)findViewById(R.id.listview);
 		
+		//Update List
         File archivo = new File(ruta);
 		
 		if(archivo.listFiles(filtro).length > 0)
@@ -49,25 +54,54 @@ public class MainActivity extends ActionBarActivity{
 			list.setAdapter(listaCanciones);
 		}
 		
-		//EVENTS
+		//Events
 		detener.setOnClickListener(new View.OnClickListener() {
-			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				detener();
 			}
 		});
+		
+		pausar.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				pausar();
+			}
+		});
+		
+		list.setOnItemClickListener(new OnItemClickListener(){
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+				Toast.makeText(getApplicationContext(), "Reproduciendo canción " + position, Toast.LENGTH_SHORT).show();
+				reproducir(position);
+			}
+		});
 	}
 	
-	public void detener()
+	private void reproducir(int posicion)
+	{
+		try {
+			reproductor.reset();
+			reproductor.setDataSource(ruta + canciones.get(posicion));
+			reproductor.prepare();
+			reproductor.start();
+			
+		} catch (IllegalArgumentException | SecurityException
+				| IllegalStateException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private void pausar()
+	{
+		reproductor.pause();
+	}
+	
+	private void detener()
 	{
 		reproductor.stop();
-	}
-
-	private void actualizarLista() 
-	{
-		
 	}
 	
 	@Override
