@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.support.v7.app.ActionBarActivity;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -74,6 +76,24 @@ public class MainActivity extends ActionBarActivity{
 		list.setOnItemClickListener(new OnItemClickListener(){
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id){
 				Toast.makeText(getApplicationContext(), "Reproduciendo canción " + position, Toast.LENGTH_SHORT).show();
+				
+				Uri myUrl = null;
+				reproductor.setAudioStreamType(AudioManager.STREAM_MUSIC);
+				try {
+					reproductor.setDataSource(getApplicationContext(),myUrl);
+				} catch (IllegalArgumentException | SecurityException
+						| IllegalStateException | IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				try {
+					reproductor.prepare();
+				} catch (IllegalStateException | IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				reproductor.start();
+				
 				reproducir(position);
 			}
 		});
