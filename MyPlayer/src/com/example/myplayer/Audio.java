@@ -28,12 +28,11 @@ public class Audio extends Fragment
     ImageButton btnBuscar;
     
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 		    rootView = inflater.inflate(R.layout.activity_audio,container, false);
 		    
 		    //inicializar 
-		    lvAudio = (ListView)rootView.findViewById(R.id.lvVideo);
+		    lvAudio = (ListView)rootView.findViewById(R.id.lvAudio);
 			canciones = new ArrayList<String>();
 			directorio = (EditText) rootView.findViewById(R.id.txtDirectorio);
 			btnBuscar = (ImageButton) rootView.findViewById(R.id.btnBuscarDirectorio);
@@ -48,13 +47,14 @@ public class Audio extends Fragment
 				}
 			});
 			
+			
 			lvAudio.setOnItemClickListener(new OnItemClickListener()
 			{
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view,int position, long id) 
 				{
 					// TODO Auto-generated method stub
-					Intent intent = new Intent(getActivity(), PlayVideo.class);
+					Intent intent = new Intent(getActivity(), PlayAudio.class);
 					intent.putExtra("txtNameCancion",directorio.getText().toString()+"/"+canciones.get(position));
 					startActivity(intent);
 				}

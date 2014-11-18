@@ -6,6 +6,46 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.myplayer.PlayAudio">
-     
+    tools:context="com.example.myplayer.PlayAudio" >
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/txtNombreCancion"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="12dp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnStopAudio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/btnPauseAudio"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="51dp"
+        android:onClick="detenerAudio"
+        android:text="Stop" />
+
+    <Button
+        android:id="@+id/btnPlayAudio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btnPauseAudio"
+        android:layout_alignLeft="@+id/linearLayout1"
+        android:onClick="reproducirAudio"
+        android:text="Play" />
+
+    <Button
+        android:id="@+id/btnPauseAudio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btnStopAudio"
+        android:layout_alignLeft="@+id/btnPlayAudio"
+        android:onClick="pausarAudio"
+        android:text="Pause" />
+
 </RelativeLayout>
